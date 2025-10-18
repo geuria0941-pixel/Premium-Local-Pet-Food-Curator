@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐕 프리미엄 로컬 펫푸드 큐레이터 - 지역 특산 곤충-채소 펫푸드 브랜드</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* 부드러운 스크롤 */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* 애니메이션 정의 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .fade-in {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        /* 히어로 섹션 */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            color: white;
+            padding: 120px 20px 100px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="2" fill="white" opacity="0.1"/></svg>');
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-emoji {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .hero h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .hero-subtitle {
+            font-size: 1.3em;
+            margin-bottom: 40px;
+            opacity: 0.95;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            padding: 18px 45px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .cta-primary {
+            background: white;
+            color: #667eea;
+        }
+
+        .cta-secondary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        /* 공통 섹션 스타일 */
+        section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 60px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* 문제 제시 섹션 */
+        .problem {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .problem-card {
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .problem-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .problem-emoji {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .problem-card h3 {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            color: #d35400;
+        }
+
+        .problem-card p {
+            color: #555;
+            line-height: 1.7;
+        }
+
+        /* 솔루션 섹션 */
+        .solution {
+            background: white;
+        }
+
+        .solution-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 35px;
+            margin-top: 40px;
+        }
+
+        .solution-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(102,126,234,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .solution-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 30px rgba(102,126,234,0.4);
+        }
+
+        .solution-emoji {
+            font-size: 70px;
+            margin-bottom: 20px;
+        }
+
+        .solution-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        .solution-card p {
+            line-height: 1.7;
+            opacity: 0.95;
+        }
+
+        /* 서비스 섹션 */
+        .services {
+            background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .service-card {
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .service-emoji {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .service-card h3 {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .service-card p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .service-btn {
+            display: inline-block;
+            padding: 10px 25px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.95em;
+        }
+
+        .service-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(102,126,234,0.3);
+        }
+
+        /* 모달 스타일 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: white;
+            margin: 50px auto;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideDown 0.4s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 30px;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: #333;
+        }
+
+        .modal-content h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        .modal-content ul {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .modal-content li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .modal-content li:before {
+            content: '✓';
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        /* 작동 방식 섹션 */
+        .how-it-works {
+            background: white;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+            position: relative;
+        }
+
+        .step {
+            text-align: center;
+            padding: 30px;
+            position: relative;
+        }
+
+        .step-number {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .step h3 {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+
+        .step p {
+            color: #666;
+            line-height: 1.7;
+        }
+
+        /* 특장점 섹션 */
+        .features {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .feature-emoji {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            line-height: 1.7;
+        }
+
+        .feature-card:hover h3,
+        .feature-card:hover p {
+            color: white;
+        }
+
+        /* FAQ 섹션 */
+        .faq {
+            background: white;
+        }
+
+        .faq-list {
+            max-width: 800px;
+            margin: 40px auto 0;
+        }
+
+        .faq-item {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: #667eea;
+        }
+
+        .faq-question {
+            padding: 25px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.1em;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: #f8f9fa;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding: 0 25px;
+            color: #666;
+            line-height: 1.7;
+        }
+
+        .faq-answer.active {
+            max-height: 500px;
+            padding: 0 25px 25px;
+        }
+
+        .faq-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .faq-icon.active {
+            transform: rotate(180deg);
+        }
+
+        /* CTA 섹션 */
+        .final-cta {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        .final-cta h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .final-cta p {
+            font-size: 1.3em;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+
+        /* 푸터 */
+        footer {
+            background: #2c3e50;
+            color: white;
+            padding: 60px 20px 30px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #667eea;
+        }
+
+        .copyright {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            opacity: 0.7;
+        }
+
+        /* 맨 위로 버튼 */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 999;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2em;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1em;
+            }
+
+            .section-title {
+                font-size: 2em;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cta-button {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .problem-grid,
+            .solution-grid,
+            .services-grid,
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .steps {
+                grid-template-columns: 1fr;
+            }
+
+            section {
+                padding: 60px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 80px 15px 60px;
+            }
+
+            .hero-emoji {
+                font-size: 60px;
+            }
+
+            .modal-content {
+                margin: 20px;
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 히어로 섹션 -->
+    <section class="hero">
+        <div class="hero-content fade-in">
+            <div class="hero-emoji">🐕🌱🔬</div>
+            <h1>프리미엄 로컬 펫푸드 큐레이터</h1>
+            <p class="hero-subtitle">
+                지역 특산 농산물과 곤충 단백질을 융합하여, 반려동물 건강을 위한 고기능성 로컬 펫푸드를 개발하고 브랜드화하는 지역 푸드테크 전문가
+            </p>
+            <div class="cta-buttons">
+                <a href="#services" class="cta-button cta-primary">서비스 소개 보기 📋</a>
+                <a href="https://forms.gle/YOUR_FORM_LINK" target="_blank" class="cta-button cta-secondary">무료 상담 신청 💬</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 문제 제시 섹션 -->
+    <section class="problem">
+        <h2 class="section-title">왜 로컬 펫푸드 큐레이터가 필요한가요? 🤔</h2>
+        <p class="section-subtitle">반려동물을 키우는 가족들이 직면한 실질적인 고민들</p>
+        <div class="problem-grid">
+            <div class="problem-card fade-in">
+                <div class="problem-emoji">⚠️</div>
+                <h3>재료 안전성 불신</h3>
+                <p>시중에 판매되는 펫푸드의 원료 투명성 부족으로 반려동물 보호자들은 항상 불안감을 느낍니다. 어디서 온 재료인지, 어떻게 만들어졌는지 알 수 없는 제품들이 대부분입니다.</p>
+            </div>
+            <div class="problem-card fade-in">
+                <div class="problem-emoji">🏪</div>
+                <h3>프리미엄 로컬 제품 부재</h3>
+                <p>지역 내에서 신뢰할 수 있는 프리미엄 펫푸드 브랜드를 찾기 어렵습니다. 대부분 대량생산 제품이거나 수입품에 의존하고 있어, 지역 특색을 살린 건강한 선택지가 없습니다.</p>
+            </div>
+            <div class="problem-card fade-in">
+                <div class="problem-emoji">🌾</div>
+                <h3>농가 소득 다각화 어려움</h3>
+                <p>지역 농산물 비규격품과 곤충 원료의 안정적인 판로 확보가 어렵고, 고부가가치 창출 기회가 제한되어 농가 소득 증대에 한계가 있습니다.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 솔루션 섹션 -->
+    <section class="solution">
+        <h2 class="section-title">로컬 펫푸드 큐레이터의 해결책 ✨</h2>
+        <p class="section-subtitle">신뢰와 지역성을 기반으로 한 혁신적인 펫푸드 솔루션</p>
+        <div class="solution-grid">
+            <div class="solution-card fade-in">
+                <div class="solution-emoji">🔬</div>
+                <h3>고기능성 맞춤형 제품 개발</h3>
+                <p>지역 곤충 단백질(귀뚜라미, 갈색거저리 등)과 특산 농산물 및 비규격 채소를 활용하여 반려동물의 건강을 최우선으로 하는 고기능성 간식과 영양제를 개발합니다.</p>
+            </div>
+            <div class="solution-card fade-in">
+                <div class="solution-emoji">🏷️</div>
+                <h3>투명한 프리미엄 브랜드</h3>
+                <p>원료 수급부터 생산까지 전 과정의 투명성을 강조하는 프리미엄 로컬 브랜드를 구축합니다. 모든 제품에 원산지와 생산 과정을 명확히 표시하여 신뢰를 구축합니다.</p>
+            </div>
+            <div class="solution-card fade-in">
+                <div class="solution-emoji">🤝</div>
+                <h3>지역 상생 공급망</h3>
+                <p>지역 농가와의 직접 계약을 통해 안정적인 원료 공급망을 구축하고, 농가 소득에 기여하면서 동시에 고품질 재료를 확보하는 선순환 구조를 만듭니다.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 서비스 소개 섹션 -->
+    <section id="services" class="services">
+        <h2 class="section-title">제공 서비스 🎯</h2>
+        <p class="section-subtitle">반려동물과 지역을 위한 통합 솔루션</p>
+        <div class="services-grid">
+            <div class="service-card fade-in" onclick="openModal('service1')">
+                <div class="service-emoji">🧪</div>
+                <h3>R&D 및 제품 개발</h3>
+                <p>곤충 단백질과 지역 농산물을 활용한 기능성 펫푸드 연구개발</p>
+                <span class="service-btn">자세히 보기 →</span>
+            </div>
+            <div class="service-card fade-in" onclick="openModal('service2')">
+                <div class="service-emoji">📊</div>
+                <h3>품질 표준화 시스템</h3>
+                <p>안전하고 일관된 제품 품질을 위한 표준화 프로세스 구축</p>
+                <span class="service-btn">자세히 보기 →</span>
+            </div>
+            <div class="service-card fade-in" onclick="openModal('service3')">
+                <div class="service-emoji">🎨</div>
+                <h3>브랜드 개발 및 런칭</h3>
+                <p>프리미엄 로컬 펫푸드 브랜드 아이덴티티 구축 및 시장 진입</p>
+                <span class="service-btn">자세히 보기 →</span>
+            </div>
+            <div class="service-card fade-in" onclick="openModal('service4')">
+                <div class="service-emoji">🌾</div>
+                <h3>지역 농가 네트워크 구축</h3>
+                <p>안정적인 원료 공급을 위한 지역 농가 파트너십 관리</p>
+                <span class="service-btn">자세히 보기 →</span>
+            </div>
+            <div class="service-card fade-in" onclick="openModal('service5')">
+                <div class="service-emoji">📦</div>
+                <h3>맞춤형 제품 큐레이션</h3>
+                <p>반려동물의 건강 상태에 맞는 개인화된 펫푸드 추천</p>
+                <span class="service-btn">자세히 보기 →</span>
+            </div>
+            <div class="service-card fade-in" onclick="openModal('service6')">
+                <div class="service-emoji">📈</div>
+                <h3>사업화 컨설팅</h3>
+                <p>로컬 펫푸드 사업 시작을 위한 전략 수립 및 실행 지원</p>
+                <span class="service-btn">자세히 보기 →</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 모달 창들 -->
+    <div id="service1" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('service1')">&times;</span>
+            <h2>🧪 R&D 및 제품 개발</h2>
+            <p>지역 자원을 활용한 과학적이고 체계적인 펫푸드 개발 서비스</p>
+            <h3>포함 내용</h3>
+            <ul>
+                <li>곤충 단백질(귀뚜라미, 갈색거저리) 영양 분석 및 배합 연구</li>
+                <li>지역 특산 농산물 및 비규격 채소 활용 레시피 개발</li>
+                <li>반려동물 연령별, 건강 상태별 맞춤 제품 설계</li>
+                <li>기능성 성분 추출 및 배합 최적화</li>
+                <li>제품 안전성 테스트 및 기호성 검증</li>
+                <li>포장재 선정 및 유통기한 설정</li>
+            </ul>
+            <p><strong>예상 소요 시간:</strong> 3-6개월 (제품 복잡도에 따라 상이)</p>
+            <p><strong>기대 효과:</strong> 차별화된 고기능성 펫푸드 제품 확보</p>
+        </div>
+    </div>
+
+    <div id="service2" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('service2')">&times;</span>
+            <h2>📊 품질 표준화 시스템</h2>
+            <p>일관되고 안전한 제품 생산을 위한 품질 관리 시스템 구축</p>
+            <h3>포함 내용
